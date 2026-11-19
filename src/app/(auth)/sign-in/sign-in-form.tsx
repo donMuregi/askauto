@@ -91,7 +91,7 @@ export function SignInForm({
           name="keepSignedIn"
           type="checkbox"
           defaultChecked
-          className="h-4 w-4 rounded border-border-strong accent-brand"
+          className="h-4 w-4 rounded border-border-strong accent-foreground"
         />
         <label htmlFor="keepSignedIn" className="text-sm text-muted-foreground">
           Keep me signed in

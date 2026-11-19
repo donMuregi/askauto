@@ -64,7 +64,7 @@ export function OfferPanel({
   }
 
   return (
-    <Card className={canRespond ? "border-brand" : undefined}>
+    <Card className={canRespond ? "border-border-strong" : undefined}>
       <CardHeader>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>

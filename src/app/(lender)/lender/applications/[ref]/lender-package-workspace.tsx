@@ -371,7 +371,7 @@ export function LenderPackageWorkspace(props: LenderPackageProps) {
 
       {/* Underwriting decision panel (when WITH_LENDER) */}
       {props.application.status === "WITH_LENDER" ? (
-        <Card className="border-brand/50">
+        <Card className="border-border-strong">
           <CardHeader>
             <CardTitle className="text-base">Underwriting decision</CardTitle>
             <CardDescription>

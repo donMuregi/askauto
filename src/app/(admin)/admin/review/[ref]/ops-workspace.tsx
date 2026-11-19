@@ -694,7 +694,7 @@ export function OpsWorkspace(props: OpsWorkspaceProps) {
                   type="checkbox"
                   checked={namesMatch}
                   onChange={(e) => setNamesMatch(e.target.checked)}
-                  className="h-4 w-4 accent-brand"
+                  className="h-4 w-4 accent-foreground"
                 />
                 Names match across account, national ID, and supporting records
               </label>
@@ -703,7 +703,7 @@ export function OpsWorkspace(props: OpsWorkspaceProps) {
                   type="checkbox"
                   checked={nothingMissing}
                   onChange={(e) => setNothingMissing(e.target.checked)}
-                  className="h-4 w-4 accent-brand"
+                  className="h-4 w-4 accent-foreground"
                 />
                 All required documents are present and complete
               </label>
@@ -712,7 +712,7 @@ export function OpsWorkspace(props: OpsWorkspaceProps) {
                   type="checkbox"
                   checked={legible}
                   onChange={(e) => setLegible(e.target.checked)}
-                  className="h-4 w-4 accent-brand"
+                  className="h-4 w-4 accent-foreground"
                 />
                 Every uploaded document is clear and legible
               </label>
@@ -721,7 +721,7 @@ export function OpsWorkspace(props: OpsWorkspaceProps) {
                   type="checkbox"
                   checked={priceCheckPassed}
                   onChange={(e) => setPriceCheckPassed(e.target.checked)}
-                  className="h-4 w-4 accent-brand"
+                  className="h-4 w-4 accent-foreground"
                 />
                 Repair scope pricing checked against service catalogue
               </label>
@@ -732,7 +732,7 @@ export function OpsWorkspace(props: OpsWorkspaceProps) {
                       type="checkbox"
                       checked={eligibilityChecked}
                       onChange={(e) => setEligibilityChecked(e.target.checked)}
-                      className="h-4 w-4 accent-brand"
+                      className="h-4 w-4 accent-foreground"
                     />
                     Employer eligibility list verified
                   </label>
@@ -741,7 +741,7 @@ export function OpsWorkspace(props: OpsWorkspaceProps) {
                       type="checkbox"
                       checked={deductionHeadroomChecked}
                       onChange={(e) => setDeductionHeadroomChecked(e.target.checked)}
-                      className="h-4 w-4 accent-brand"
+                      className="h-4 w-4 accent-foreground"
                     />
                     Payroll deduction headroom verified
                   </label>
@@ -789,7 +789,7 @@ export function OpsWorkspace(props: OpsWorkspaceProps) {
                 ].map((g) => (
                   <li key={g.label} className="flex items-center gap-2">
                     {g.ok ? (
-                      <CheckCircle2 className="h-4 w-4 text-success shrink-0" aria-hidden="true" />
+                      <CheckCircle2 className="h-4 w-4 text-muted-foreground shrink-0" aria-hidden="true" />
                     ) : (
                       <XCircle className="h-4 w-4 text-muted-foreground shrink-0" aria-hidden="true" />
                     )}

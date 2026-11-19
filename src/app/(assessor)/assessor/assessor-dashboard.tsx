@@ -115,7 +115,7 @@ export function AssessorDashboardClient({ items, counts }: AssessorDashboardClie
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardDescription>New applications</CardDescription>
-              <Clock className="h-4 w-4 text-brand" aria-hidden="true" />
+              <Clock className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             </div>
             <CardTitle className="text-2xl">{counts.newCount}</CardTitle>
           </CardHeader>
@@ -128,7 +128,7 @@ export function AssessorDashboardClient({ items, counts }: AssessorDashboardClie
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardDescription>In progress</CardDescription>
-              <Wrench className="h-4 w-4 text-accent" aria-hidden="true" />
+              <Wrench className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             </div>
             <CardTitle className="text-2xl">{counts.inProgressCount}</CardTitle>
           </CardHeader>
@@ -141,7 +141,7 @@ export function AssessorDashboardClient({ items, counts }: AssessorDashboardClie
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardDescription>Awaiting repair scope</CardDescription>
-              <ClipboardCheck className="h-4 w-4 text-accent" aria-hidden="true" />
+              <ClipboardCheck className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             </div>
             <CardTitle className="text-2xl">{counts.awaitingScopeCount}</CardTitle>
           </CardHeader>
@@ -154,7 +154,7 @@ export function AssessorDashboardClient({ items, counts }: AssessorDashboardClie
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardDescription>Previously assessed</CardDescription>
-              <FileCheck2 className="h-4 w-4 text-success" aria-hidden="true" />
+              <FileCheck2 className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             </div>
             <CardTitle className="text-2xl">{counts.priorAssessedCount}</CardTitle>
           </CardHeader>
@@ -223,7 +223,7 @@ export function AssessorDashboardClient({ items, counts }: AssessorDashboardClie
               <Link
                 key={item.applicationId}
                 href={`/assessor/inspections/${item.applicationId}`}
-                className="block rounded-lg border border-border bg-surface p-5 shadow-xs transition-colors hover:border-brand hover:bg-surface-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                className="block rounded-2xl border border-border bg-surface p-5 shadow-xs transition-colors hover:border-border-strong hover:bg-surface-muted/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
               >
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div className="space-y-1.5">
@@ -267,7 +267,7 @@ export function AssessorDashboardClient({ items, counts }: AssessorDashboardClie
                         <p>Updated: {item.inspectionUpdatedFormatted}</p>
                       ) : null}
                     </div>
-                    <span className="inline-flex items-center gap-1 text-sm font-medium text-brand">
+                    <span className="inline-flex items-center gap-1 text-sm font-medium text-foreground">
                       {meta.cta}
                       <ChevronRight className="h-4 w-4" aria-hidden="true" />
                     </span>

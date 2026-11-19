@@ -481,7 +481,7 @@ export function InspectionWorkspace({
                         checked={diagnosticsRun.includes(opt)}
                         onChange={() => toggleDiagnostic(opt)}
                         disabled={isInspectionSubmitted}
-                        className="h-4 w-4 accent-brand"
+                        className="h-4 w-4 accent-foreground"
                       />
                       <span>{opt}</span>
                     </label>
@@ -536,7 +536,7 @@ export function InspectionWorkspace({
                         onClick={() => removeFinding(idx)}
                         aria-label={`Remove finding ${idx + 1}`}
                       >
-                        <Trash2 className="h-4 w-4 text-destructive" aria-hidden="true" />
+                        <Trash2 className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                       </Button>
                     ) : null}
                   </div>
@@ -733,7 +733,7 @@ export function InspectionWorkspace({
                             onClick={() => removeScopeLine(idx)}
                             aria-label={`Remove line ${idx + 1}`}
                           >
-                            <Trash2 className="h-4 w-4 text-destructive" aria-hidden="true" />
+                            <Trash2 className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                           </Button>
                         ) : null}
                       </div>

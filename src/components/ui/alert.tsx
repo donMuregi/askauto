@@ -2,13 +2,13 @@ import { cva, type VariantProps } from "class-variance-authority";
 import type { HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
-const alertVariants = cva("rounded-md border px-4 py-3 text-sm", {
+const alertVariants = cva("rounded-xl border px-4 py-3 text-sm", {
   variants: {
     variant: {
-      info: "border-accent/30 bg-accent-soft text-foreground",
-      warning: "border-brand/40 bg-brand-soft text-foreground",
-      success: "border-success/30 bg-success-soft text-foreground",
-      error: "border-destructive/30 bg-destructive-soft text-destructive",
+      info: "border-border bg-surface-muted text-foreground",
+      warning: "border-brand/30 bg-brand-soft text-foreground",
+      success: "border-success/20 bg-success-soft text-foreground",
+      error: "border-destructive/20 bg-destructive-soft text-destructive",
     },
   },
   defaultVariants: {

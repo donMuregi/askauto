@@ -57,7 +57,7 @@ export default async function LenderDashboardPage() {
           <div className="flex flex-wrap gap-2 text-sm">
             <Link
               href="/lender/inbox"
-              className="rounded-md bg-brand px-3 py-1.5 font-medium text-brand-foreground hover:opacity-90"
+              className="rounded-lg bg-brand px-3 py-1.5 font-semibold text-brand-foreground hover:opacity-90"
             >
               Open inbox ({data.counts.inboxCount})
             </Link>
@@ -176,7 +176,7 @@ export default async function LenderDashboardPage() {
                 <Link
                   key={row.submissionId}
                   href={`/lender/applications/${encodeURIComponent(row.reference ?? row.applicationId)}`}
-                  className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-brand/40 bg-brand-soft/40 px-4 py-3 text-sm hover:bg-brand-soft"
+                  className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-transparent bg-brand-soft px-4 py-3 text-sm transition-colors hover:bg-brand-soft/70"
                 >
                   <div>
                     <p className="font-semibold text-foreground">

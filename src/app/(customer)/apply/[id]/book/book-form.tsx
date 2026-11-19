@@ -217,7 +217,7 @@ export function BookForm({
       </form>
 
       {checkoutRequestId ? (
-        <Card className="border-brand">
+        <Card className="border-border-strong">
           <CardHeader>
             <CardTitle className="text-base">Awaiting M-Pesa confirmation</CardTitle>
             <CardDescription>{stkMessage}</CardDescription>

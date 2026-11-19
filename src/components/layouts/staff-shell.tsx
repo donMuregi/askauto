@@ -1,7 +1,9 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 import type { StaffRole } from "@/server/db/rls";
 import { BrandMark } from "./brand-mark";
+import { NavLink } from "./nav-link";
+import { sidebarLinkActive, sidebarLinkBase, sidebarLinkInactive } from "./nav-styles";
+import { appHeaderClass, signOutButtonClass, UserChip } from "./user-chip";
 
 interface StaffShellProps {
   children: ReactNode;
@@ -31,22 +33,19 @@ export function StaffShell({ children, userName, roles, signOutAction }: StaffSh
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <header className="border-b border-border bg-surface">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+      <header className={appHeaderClass}>
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-3">
-            <BrandMark href="/admin" />
-            <span className="rounded bg-surface-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+            <BrandMark href="/admin" size="sm" />
+            <span className="rounded-md bg-foreground px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-background">
               Staff
             </span>
           </div>
-          <div className="flex items-center gap-4 text-sm">
-            <span className="text-muted-foreground">{userName}</span>
+          <div className="flex items-center gap-3 text-sm">
+            <UserChip name={userName} />
             {signOutAction ? (
               <form action={signOutAction}>
-                <button
-                  type="submit"
-                  className="font-medium text-muted-foreground hover:text-foreground cursor-pointer"
-                >
+                <button type="submit" className={signOutButtonClass}>
                   Sign out
                 </button>
               </form>
@@ -54,17 +53,22 @@ export function StaffShell({ children, userName, roles, signOutAction }: StaffSh
           </div>
         </div>
       </header>
-      <div className="mx-auto flex w-full max-w-7xl flex-1 gap-6 px-4 py-6 sm:px-6">
+      <div className="mx-auto flex w-full max-w-7xl flex-1 gap-8 px-4 py-8 sm:px-6">
         <aside className="hidden w-52 shrink-0 md:block">
-          <nav aria-label="Staff navigation" className="space-y-1">
+          <nav aria-label="Staff navigation" className="sticky top-24 space-y-1">
+            <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+              Operations
+            </p>
             {visibleNav.map((item) => (
-              <Link
+              <NavLink
                 key={item.href}
                 href={item.href}
-                className="block rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-surface hover:text-foreground"
+                className={sidebarLinkBase}
+                activeClassName={sidebarLinkActive}
+                inactiveClassName={sidebarLinkInactive}
               >
                 {item.label}
-              </Link>
+              </NavLink>
             ))}
           </nav>
         </aside>

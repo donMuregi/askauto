@@ -52,7 +52,7 @@ export function ResetPasswordForm({
         </Alert>
         <Link
           href="/forgot-password"
-          className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-brand px-4 text-sm font-medium text-brand-foreground hover:bg-brand-hover"
+          className="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-brand px-4 text-sm font-semibold text-brand-foreground hover:bg-brand-hover"
         >
           Request a new reset link
         </Link>

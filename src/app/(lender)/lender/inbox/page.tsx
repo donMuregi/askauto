@@ -44,7 +44,7 @@ export default async function LenderInboxPage() {
                   href={`/lender/applications/${encodeURIComponent(row.reference ?? row.applicationId)}`}
                   className="block"
                 >
-                  <Card className="transition-colors hover:border-accent/60 hover:bg-surface-muted/40">
+                  <Card className="transition-colors hover:border-border-strong hover:bg-surface-muted/40">
                     <CardHeader className="pb-2">
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <div>

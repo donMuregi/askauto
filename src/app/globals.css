@@ -1,33 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  /* Prototype design tokens: amber brand, MICROMID blue accent, neutral greys */
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  /* Ask AutoParts design tokens: logo amber (#FBB040), logo ink (#231F20), warm neutrals */
+  --background: #f7f7f5;
+  --foreground: #1c1a1b;
   --surface: #ffffff;
-  --surface-muted: #f1f5f9;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --muted-foreground: #475569;
+  --surface-muted: #f2f1ee;
+  --border: #e7e5e1;
+  --border-strong: #d4d1cb;
+  --muted-foreground: #5f5b57;
 
-  --brand-amber: #d97706;
-  --brand-amber-hover: #b45309;
-  --brand-amber-soft: #fef3c7;
-  --brand-amber-foreground: #ffffff;
+  --brand-amber: #fbb040;
+  --brand-amber-hover: #f5a21f;
+  --brand-amber-soft: #fef4e1;
+  --brand-amber-foreground: #231f20;
 
-  --accent-micromid: #1d4ed8;
-  --accent-micromid-hover: #1e40af;
-  --accent-micromid-soft: #dbeafe;
+  /* Former blue accent is now the logo ink */
+  --accent-micromid: #231f20;
+  --accent-micromid-hover: #3a3536;
+  --accent-micromid-soft: #efedea;
   --accent-micromid-foreground: #ffffff;
 
-  --success: #15803d;
-  --success-soft: #dcfce7;
-  --warning: #b45309;
-  --warning-soft: #fef3c7;
-  --destructive: #b91c1c;
-  --destructive-soft: #fee2e2;
+  --success: #2f6b3f;
+  --success-soft: #ebf3ec;
+  --warning: #8a5a0b;
+  --warning-soft: #fef4e1;
+  --destructive: #b42318;
+  --destructive-soft: #fdeceb;
 
-  --radius: 0.5rem;
+  --radius: 0.75rem;
 }
 
 @theme inline {
@@ -52,13 +53,55 @@
   --color-warning-soft: var(--warning-soft);
   --color-destructive: var(--destructive);
   --color-destructive-soft: var(--destructive-soft);
-  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --shadow-xs: 0 1px 2px 0 rgb(28 26 27 / 0.04);
+  --shadow-sm: 0 1px 3px 0 rgb(28 26 27 / 0.06), 0 1px 2px -1px rgb(28 26 27 / 0.04);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.015em;
+  }
+
+  ::selection {
+    background: var(--brand-amber-soft);
+    color: var(--foreground);
+  }
+
+  select,
+  textarea {
+    border-radius: 0.625rem;
+    transition: border-color 150ms ease;
+  }
+
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: none;
+    border-color: var(--foreground);
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    accent-color: var(--foreground);
+  }
+
+  :focus-visible {
+    outline-color: var(--foreground);
+  }
 }

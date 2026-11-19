@@ -36,7 +36,7 @@ export default async function VerifyEmailTokenPage({
         </Alert>
         <Link
           href={`/sign-in?next=${encodeURIComponent("/verify")}`}
-          className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-brand px-4 text-sm font-medium text-brand-foreground hover:bg-brand-hover"
+          className="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-brand px-4 text-sm font-semibold text-brand-foreground hover:bg-brand-hover"
         >
           Go to sign in
         </Link>

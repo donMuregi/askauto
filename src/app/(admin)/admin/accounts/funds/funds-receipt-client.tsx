@@ -112,7 +112,7 @@ function FundsRowCard({ item }: { item: AwaitingFundsItem }) {
         )}
 
         {item.fundsReceived ? (
-          <div className="rounded-md border border-success/40 bg-success-soft px-4 py-2.5 text-xs">
+          <div className="rounded-xl border border-transparent bg-success-soft px-4 py-2.5 text-xs">
             Confirmed {kes(item.fundsReceived.amountKes)} (Ref: {item.fundsReceived.reference}) on{" "}
             {item.fundsReceived.recordedAtFormatted}.
             {item.fundsReceived.discrepancyFlag ? (

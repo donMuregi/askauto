@@ -148,7 +148,7 @@ export function DetailsForm({
               rows={3}
               required
               placeholder="e.g. Clutch slipping on hills and front suspension knocking"
-              className="w-full rounded-md border border-border-strong bg-surface px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+              className="w-full rounded-md border border-border-strong bg-surface px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
             />
           </div>
         </CardContent>
@@ -167,7 +167,7 @@ export function DetailsForm({
               type="checkbox"
               name="consentAccepted"
               required
-              className="mt-1 h-4 w-4 accent-brand"
+              className="mt-1 h-4 w-4 accent-foreground"
             />
             <span>
               I accept the{" "}

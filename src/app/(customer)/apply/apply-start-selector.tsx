@@ -59,14 +59,14 @@ export function ApplyStartSelector({ employers }: { employers: EmployerOption[] 
             setError(null);
           }}
           aria-pressed={selected === "RIDE_HAILING"}
-          className={`text-left rounded-lg border p-6 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
+          className={`text-left rounded-2xl border p-6 transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground ${
             selected === "RIDE_HAILING"
-              ? "border-brand bg-brand-soft/40 ring-1 ring-brand"
-              : "border-border bg-surface hover:border-brand/60 hover:bg-surface-muted/50"
+              ? "border-foreground bg-surface"
+              : "border-border bg-surface hover:border-border-strong hover:bg-surface-muted/50"
           }`}
         >
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-brand-soft text-brand">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-surface-muted text-foreground">
               <Car className="h-5 w-5" aria-hidden="true" />
             </span>
             <span className="text-base font-semibold text-foreground">
@@ -85,14 +85,14 @@ export function ApplyStartSelector({ employers }: { employers: EmployerOption[] 
             setError(null);
           }}
           aria-pressed={selected === "SALARIED"}
-          className={`text-left rounded-lg border p-6 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
+          className={`text-left rounded-2xl border p-6 transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground ${
             selected === "SALARIED"
-              ? "border-accent bg-accent-soft/40 ring-1 ring-accent"
-              : "border-border bg-surface hover:border-accent/60 hover:bg-surface-muted/50"
+              ? "border-foreground bg-surface"
+              : "border-border bg-surface hover:border-border-strong hover:bg-surface-muted/50"
           }`}
         >
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-accent-soft text-accent">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-surface-muted text-foreground">
               <Briefcase className="h-5 w-5" aria-hidden="true" />
             </span>
             <span className="text-base font-semibold text-foreground">
@@ -120,9 +120,9 @@ export function ApplyStartSelector({ employers }: { employers: EmployerOption[] 
                 {PLATFORMS.map((p) => (
                   <label
                     key={p.value}
-                    className={`flex min-h-11 cursor-pointer items-center justify-center rounded-md border px-3 text-sm font-medium ${
+                    className={`flex min-h-11 cursor-pointer items-center justify-center rounded-lg border px-3 text-sm font-medium transition-colors ${
                       platform === p.value
-                        ? "border-brand bg-brand-soft text-foreground"
+                        ? "border-foreground bg-foreground text-background"
                         : "border-border bg-surface text-muted-foreground hover:bg-surface-muted"
                     }`}
                   >
@@ -178,7 +178,7 @@ export function ApplyStartSelector({ employers }: { employers: EmployerOption[] 
                   name="employerId"
                   required
                   defaultValue=""
-                  className="flex min-h-11 w-full rounded-md border border-border-strong bg-surface px-3 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                  className="flex min-h-11 w-full rounded-md border border-border-strong bg-surface px-3 py-2 text-sm text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
                 >
                   <option value="" disabled>
                     Select your employer

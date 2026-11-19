@@ -36,7 +36,7 @@ export default async function AdminApplicationsPage() {
                 <Link
                   key={row.id}
                   href={`/admin/review/${encodeURIComponent(row.reference!)}`}
-                  className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border p-3 hover:border-brand hover:bg-surface-muted/40"
+                  className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border p-3 hover:border-border-strong hover:bg-surface-muted/40"
                 >
                   <div>
                     <p className="font-semibold">

@@ -86,7 +86,7 @@ export function HandoverPanel({
   }
 
   return (
-    <Card className={canConfirm ? "border-brand" : undefined}>
+    <Card className={canConfirm ? "border-border-strong" : undefined}>
       <CardHeader>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>

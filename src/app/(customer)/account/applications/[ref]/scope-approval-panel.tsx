@@ -159,7 +159,7 @@ export function ScopeApprovalPanel({
                   <label
                     key={item.id}
                     className={`flex items-start justify-between gap-3 rounded-md border p-3 text-sm ${
-                      checked ? "border-brand/50 bg-brand-soft/30" : "border-border bg-surface-muted/40"
+                      checked ? "border-border-strong bg-brand-soft/50" : "border-border bg-surface-muted/40"
                     }`}
                   >
                     <div className="flex items-start gap-2.5">
@@ -168,7 +168,7 @@ export function ScopeApprovalPanel({
                         checked={checked}
                         disabled={isSigned}
                         onChange={() => toggleItem(item.id)}
-                        className="mt-1 h-4 w-4 accent-brand"
+                        className="mt-1 h-4 w-4 accent-foreground"
                       />
                       <div>
                         <p className="font-medium">
@@ -218,7 +218,7 @@ export function ScopeApprovalPanel({
                     type="checkbox"
                     checked={accepted}
                     onChange={(e) => setAccepted(e.target.checked)}
-                    className="mt-0.5 h-4 w-4 accent-brand"
+                    className="mt-0.5 h-4 w-4 accent-foreground"
                   />
                   <span>
                     I approve only the checked repair items above and understand no additional work

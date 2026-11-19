@@ -110,7 +110,7 @@ export function NotificationsPanel({ notifications, preferences }: Notifications
                 type="checkbox"
                 name="email"
                 defaultChecked={preferences.email}
-                className="h-4 w-4 accent-brand"
+                className="h-4 w-4 accent-foreground"
               />
               Email reminders
             </label>
@@ -119,7 +119,7 @@ export function NotificationsPanel({ notifications, preferences }: Notifications
                 type="checkbox"
                 name="sms"
                 defaultChecked={preferences.sms}
-                className="h-4 w-4 accent-brand"
+                className="h-4 w-4 accent-foreground"
               />
               SMS reminders (quiet hours 21:00 to 07:00 EAT)
             </label>
@@ -128,7 +128,7 @@ export function NotificationsPanel({ notifications, preferences }: Notifications
                 type="checkbox"
                 name="whatsapp"
                 defaultChecked={preferences.whatsapp}
-                className="h-4 w-4 accent-brand"
+                className="h-4 w-4 accent-foreground"
               />
               WhatsApp updates (opt-in)
             </label>

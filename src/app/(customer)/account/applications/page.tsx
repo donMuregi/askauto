@@ -25,7 +25,7 @@ export default async function AccountApplicationsPage() {
         <h1 className="text-2xl font-semibold tracking-tight">Applications</h1>
         <Link
           href="/apply"
-          className="inline-flex min-h-10 items-center rounded-md bg-brand px-4 text-sm font-medium text-brand-foreground hover:bg-brand-hover"
+          className="inline-flex min-h-10 items-center rounded-lg bg-brand px-4 text-sm font-semibold text-brand-foreground hover:bg-brand-hover"
         >
           Start application
         </Link>

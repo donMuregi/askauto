@@ -28,10 +28,10 @@ export default async function AssessorInspectionDetailPage({
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <header className="border-b border-border bg-surface">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+      <header className="sticky top-0 z-40 border-b border-border bg-surface/90 backdrop-blur supports-[backdrop-filter]:bg-surface/80">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-3">
-            <BrandMark href="/assessor" />
+            <BrandMark href="/assessor" size="sm" />
             <Badge variant="accent">Assessor Portal</Badge>
           </div>
           <div className="flex items-center gap-4 text-sm">
@@ -42,7 +42,7 @@ export default async function AssessorInspectionDetailPage({
             <form action={signOutAction}>
               <button
                 type="submit"
-                className="font-medium text-muted-foreground hover:text-foreground cursor-pointer"
+                className="inline-flex min-h-9 cursor-pointer items-center rounded-2xl border border-border bg-surface px-3 text-sm font-medium text-foreground transition-colors hover:bg-surface-muted"
               >
                 Sign out
               </button>

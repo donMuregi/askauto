@@ -89,7 +89,7 @@ export function MfaSetupForm({ nextPath }: { nextPath: string }) {
       </div>
 
       {backupCodes.length > 0 ? (
-        <div className="space-y-2 rounded-md border border-brand/40 bg-brand-soft p-4">
+        <div className="space-y-2 rounded-xl border border-transparent bg-brand-soft p-4">
           <p className="text-xs font-semibold text-foreground">
             One-time recovery codes (shown once; save them now)
           </p>

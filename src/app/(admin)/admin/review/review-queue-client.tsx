@@ -133,7 +133,7 @@ export function ReviewQueueClient({
             <Link
               key={row.id}
               href={`/admin/review/${encodeURIComponent(row.reference)}`}
-              className="block rounded-lg border border-border bg-surface p-4 shadow-xs transition-colors hover:border-brand hover:bg-surface-muted/40"
+              className="block rounded-2xl border border-border bg-surface p-4 shadow-xs transition-colors hover:border-border-strong hover:bg-surface-muted/40"
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="space-y-1">
@@ -167,7 +167,7 @@ export function ReviewQueueClient({
                       Claim
                     </Button>
                   ) : null}
-                  <span className="inline-flex items-center gap-1 text-sm font-medium text-brand">
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-foreground">
                     Review
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />
                   </span>

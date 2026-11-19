@@ -55,7 +55,7 @@ export default async function AdminDashboardPage() {
           </div>
           <Link
             href="/admin/review"
-            className="inline-flex min-h-10 items-center rounded-md bg-brand px-4 text-sm font-medium text-brand-foreground hover:bg-brand-hover"
+            className="inline-flex min-h-10 items-center rounded-lg bg-brand px-4 text-sm font-semibold text-brand-foreground hover:bg-brand-hover"
           >
             Open Review Queue
           </Link>
@@ -66,7 +66,7 @@ export default async function AdminDashboardPage() {
             <Link
               key={c.status}
               href={`/admin/review?status=${encodeURIComponent(c.status)}`}
-              className="block rounded-lg border border-border bg-surface p-5 shadow-xs transition-colors hover:border-brand hover:bg-surface-muted/40"
+              className="block rounded-2xl border border-border bg-surface p-5 shadow-xs transition-colors hover:border-border-strong hover:bg-surface-muted/40"
             >
               <p className="text-sm text-muted-foreground">{c.label}</p>
               <p className="mt-1 text-2xl font-semibold">{c.count}</p>
@@ -88,7 +88,7 @@ export default async function AdminDashboardPage() {
                   <Link
                     key={app.id}
                     href={`/admin/review/${encodeURIComponent(app.reference)}`}
-                    className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border p-3.5 transition-colors hover:border-brand hover:bg-surface-muted/40"
+                    className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border p-3.5 transition-colors hover:border-border-strong hover:bg-surface-muted/40"
                   >
                     <div>
                       <p className="font-semibold text-foreground">{app.reference}</p>

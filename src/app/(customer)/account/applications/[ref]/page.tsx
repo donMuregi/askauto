@@ -97,11 +97,11 @@ export default async function ApplicationTrackerPage({
               return (
                 <div
                   key={stage.id}
-                  className={`rounded-md border p-3 text-xs ${
+                  className={`rounded-xl border p-3 text-xs ${
                     active
-                      ? "border-brand bg-brand-soft font-semibold text-foreground"
+                      ? "border-brand bg-brand font-semibold text-brand-foreground"
                       : completed
-                        ? "border-success/40 bg-success-soft text-foreground"
+                        ? "border-border bg-surface text-foreground"
                         : "border-border bg-surface-muted text-muted-foreground"
                   }`}
                 >

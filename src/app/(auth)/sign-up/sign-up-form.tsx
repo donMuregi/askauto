@@ -147,7 +147,7 @@ export function SignUpForm({ nextPath }: { nextPath: string }) {
           name="acceptTerms"
           type="checkbox"
           required
-          className="mt-1 h-4 w-4 rounded border-border-strong accent-brand"
+          className="mt-1 h-4 w-4 rounded border-border-strong accent-foreground"
         />
         <label htmlFor="acceptTerms" className="text-xs text-muted-foreground leading-relaxed">
           I accept the{" "}
