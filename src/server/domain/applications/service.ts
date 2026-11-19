@@ -37,7 +37,7 @@ import {
 import { transition } from "./transition";
 
 export const CONSENT_NOTICE_TEXT =
-  "I consent to Ask AutoParts collecting my identity, vehicle, diagnostic inspection, and supporting financial records and sharing my completed application package with the assigned financing partner. No logbook surrender or vehicle tracker is required. Your financing partner pays Ask AutoParts directly.";
+  "I consent to Ask AutoParts collecting my identity, vehicle, diagnostic inspection, and supporting financial records and sharing my completed application package with the assigned financing partner. Your financing partner pays Ask AutoParts directly.";
 
 export async function getInspectionFeeSetting(): Promise<number> {
   const [row] = await getDb()

@@ -15,8 +15,7 @@ export default function ConsentNoticePage() {
           sharing the completed application package with the assigned financing partner.
         </p>
         <p>
-          No logbook surrender and no vehicle tracker are required. Your financing partner pays Ask
-          AutoParts directly.
+          Your financing partner pays Ask AutoParts directly upon approval.
         </p>
       </article>
     </MarketingShell>

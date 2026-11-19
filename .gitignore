@@ -37,6 +37,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local private uploads in fake mode
+.fnpl-storage/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -227,6 +227,17 @@ export async function requireUser(options: GuardMode = {}): Promise<SessionConte
   return ctx;
 }
 
+export function getDefaultPortalForContext(ctx: SessionContext): string {
+  if (ctx.user.kind === "lender") return "/lender";
+  if (ctx.user.kind === "staff") {
+    const roles = ctx.staff?.roles ?? [];
+    if (roles.length === 1 && roles[0] === "assessor") return "/assessor";
+    if (roles.length === 1 && roles[0] === "garage") return "/garage";
+    return "/admin";
+  }
+  return "/account";
+}
+
 export async function requireCustomer(
   options: { verified: boolean } & GuardMode = { verified: true },
 ): Promise<SessionContext> {
@@ -235,7 +246,7 @@ export async function requireCustomer(
     if (options.mode === "throw") {
       throw new DomainError("FORBIDDEN", "Customer account required.", 403);
     }
-    redirect("/");
+    redirect(getDefaultPortalForContext(ctx));
   }
 
   if (options.verified && !ctx.user.emailVerified && !ctx.user.phoneNumberVerified) {

@@ -17,8 +17,8 @@ export default function FnplHowItWorksPage() {
         <div className="space-y-3">
           <h1 className="text-3xl font-bold tracking-tight">How Fix Now, Pay Later works</h1>
           <p className="text-base text-muted-foreground">
-            No logbook surrender. No vehicle tracker. Your financing partner pays Ask AutoParts
-            directly.
+            Your financing partner pays Ask AutoParts directly so you can get your vehicle repaired
+            and repay over time.
           </p>
         </div>
 

@@ -40,6 +40,7 @@ export function SignInForm({
       }
       if (result.redirectTo) {
         router.push(result.redirectTo);
+        router.refresh();
       }
     });
   }
@@ -110,7 +111,7 @@ export function SignInForm({
       <p className="text-center text-sm text-muted-foreground">
         New to Ask AutoParts?{" "}
         <Link
-          href={`/sign-up?next=${encodeURIComponent(nextPath)}`}
+          href={`/sign-up?next=${encodeURIComponent(nextPath || "/apply")}`}
           className="font-medium text-foreground underline"
         >
           Create account

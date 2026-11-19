@@ -2,10 +2,26 @@ import Link from "next/link";
 import { MarketingShell } from "@/components/layouts/marketing-shell";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getDefaultPortalForContext, getSessionContext } from "@/server/auth/guards";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const ctx = await getSessionContext();
+  const portalHref = ctx ? getDefaultPortalForContext(ctx) : "/account";
+  const portalLabel =
+    portalHref === "/assessor"
+      ? "Assessor Portal"
+      : portalHref === "/garage"
+        ? "Garage Portal"
+        : portalHref === "/admin"
+          ? "Operations Portal"
+          : portalHref === "/lender"
+            ? "Lender Portal"
+            : "My Account";
+
   return (
-    <MarketingShell>
+    <MarketingShell isSignedIn={Boolean(ctx)} portalHref={portalHref} portalLabel={portalLabel}>
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="max-w-2xl space-y-6">
           <Badge variant="accent">Ask AutoParts | Fix Now, Pay Later</Badge>
@@ -13,8 +29,8 @@ export default function HomePage() {
             Get your vehicle repaired now and pay through a financing partner.
           </h1>
           <p className="text-base text-muted-foreground">
-            Your financing partner pays Ask AutoParts directly. No logbook surrender. No vehicle
-            tracker.
+            Your financing partner pays Ask AutoParts directly so you can get back on the road
+            faster.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link

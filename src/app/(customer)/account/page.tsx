@@ -57,8 +57,7 @@ export default async function AccountDashboardPage() {
           <CardHeader>
             <CardTitle>Start your application</CardTitle>
             <CardDescription>
-              Your financing partner pays Ask AutoParts directly. No logbook surrender. No vehicle
-              tracker.
+              Your financing partner pays Ask AutoParts directly once your application is approved.
             </CardDescription>
           </CardHeader>
           <CardContent>

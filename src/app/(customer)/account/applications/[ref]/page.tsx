@@ -5,6 +5,7 @@ import { formatKenyanDateTime, formatKes } from "@/lib/format";
 import { requireCustomer } from "@/server/auth/guards";
 import { getApplicationTrackerData } from "@/server/domain/applications/service";
 import { getCustomerScopeForApproval } from "@/server/domain/inspections/service";
+import { getCustomerDocumentsChecklist } from "@/server/domain/review/service";
 import {
   CUSTOMER_STATUS_LABELS,
   getWhatHappensNext,
@@ -12,6 +13,7 @@ import {
   STATUS_TO_STEP,
 } from "@/server/domain/applications/transition";
 import { CancelApplicationForm } from "./cancel-application-form";
+import { DocumentsUploadPanel } from "./documents-upload-panel";
 import { ScopeApprovalPanel } from "./scope-approval-panel";
 
 export const dynamic = "force-dynamic";
@@ -36,7 +38,20 @@ export default async function ApplicationTrackerPage({
   }
 
   const { application, vehicle, booking, history, documents, latestFeePayment } = data;
-  const scopeData = await getCustomerScopeForApproval(application.id);
+  const [scopeData, docsChecklist] = await Promise.all([
+    getCustomerScopeForApproval(application.id),
+    getCustomerDocumentsChecklist(application.id),
+  ]);
+  const showUploadChecklist = [
+    "REPAIR_APPROVED",
+    "UNDER_REVIEW",
+    "WITH_LENDER",
+    "OFFER_MADE",
+    "APPROVED",
+    "REPAIR_IN_PROGRESS",
+    "REPAYING",
+    "SETTLED",
+  ].includes(application.status);
   const currentStep = STATUS_TO_STEP[application.status];
   const statusLabel = CUSTOMER_STATUS_LABELS[application.status];
   const nextText = getWhatHappensNext(application.status, application.productCode);
@@ -94,6 +109,34 @@ export default async function ApplicationTrackerPage({
           </div>
         </CardContent>
       </Card>
+
+      {showUploadChecklist ? (
+        <DocumentsUploadPanel
+          applicationId={application.id}
+          applicationStatus={application.status}
+          checklist={docsChecklist.map((c) => ({
+            docType: c.docType,
+            required: c.required,
+            uploadedBy: c.uploadedBy,
+            upload: c.upload
+              ? {
+                  id: c.upload.id,
+                  status: c.upload.status,
+                  mime: c.upload.mime,
+                  sizeBytes: c.upload.sizeBytes,
+                  hasPassword: c.upload.hasPassword,
+                }
+              : null,
+            latestReview: c.latestReview
+              ? {
+                  decision: c.latestReview.decision,
+                  reasonCode: c.latestReview.reasonCode,
+                  note: c.latestReview.note,
+                }
+              : null,
+          }))}
+        />
+      ) : null}
 
       {scopeData.releasedInspection || scopeData.scope ? (
         <ScopeApprovalPanel

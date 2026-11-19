@@ -14,6 +14,7 @@ import {
   submitDetailsService,
 } from "@/server/domain/applications/service";
 import { customerApproveScopeService } from "@/server/domain/inspections/service";
+import { submitCustomerDocumentsService } from "@/server/domain/review/service";
 
 export interface ApplyActionResult {
   ok: boolean;
@@ -255,6 +256,18 @@ export async function signScope(
     revalidatePath("/account");
     revalidatePath("/account/applications");
     return { ok: true, message: "Repair scope approved and signed." };
+  } catch (err) {
+    return handleError(err);
+  }
+}
+
+export async function submitDocuments(applicationId: string): Promise<ApplyActionResult> {
+  try {
+    const ctx = await requireCustomer({ verified: true, mode: "throw" });
+    await submitCustomerDocumentsService(ctx.actor, applicationId);
+    revalidatePath("/account");
+    revalidatePath("/account/applications");
+    return { ok: true, message: "Documents submitted for review." };
   } catch (err) {
     return handleError(err);
   }

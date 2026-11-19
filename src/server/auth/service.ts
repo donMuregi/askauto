@@ -740,14 +740,24 @@ export async function signInWithIdentifierService(params: {
         : roles.length === 1 && roles[0] === "garage"
           ? "/garage"
           : "/admin";
-    return { redirectTo: safeNext(params.next, defaultPortal) };
+
+    const candidate = safeNext(params.next, defaultPortal);
+    const isStaffRoute =
+      candidate.startsWith("/admin") ||
+      candidate.startsWith("/assessor") ||
+      candidate.startsWith("/garage");
+    return { redirectTo: isStaffRoute ? candidate : defaultPortal };
   }
 
   if (foundUser.kind === "lender") {
-    return { redirectTo: safeNext(params.next, "/lender") };
+    const candidate = safeNext(params.next, "/lender");
+    return { redirectTo: candidate.startsWith("/lender") ? candidate : "/lender" };
   }
 
-  const customerTarget = safeNext(params.next, "/account");
+  const candidateCustomer = safeNext(params.next, "/account");
+  const isCustomerRoute =
+    candidateCustomer.startsWith("/account") || candidateCustomer.startsWith("/apply");
+  const customerTarget = isCustomerRoute ? candidateCustomer : "/account";
   if (!foundUser.emailVerified && !foundUser.phoneNumberVerified) {
     return { redirectTo: `/verify?next=${encodeURIComponent(customerTarget)}` };
   }

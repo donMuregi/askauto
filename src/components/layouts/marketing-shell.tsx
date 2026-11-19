@@ -6,9 +6,18 @@ import { BrandMark } from "./brand-mark";
 interface MarketingShellProps {
   children: ReactNode;
   isSignedIn?: boolean;
+  portalHref?: string;
+  portalLabel?: string;
 }
 
-export function MarketingShell({ children, isSignedIn = false }: MarketingShellProps) {
+export function MarketingShell({
+  children,
+  isSignedIn = false,
+  portalHref = "/account",
+  portalLabel = "My Account",
+}: MarketingShellProps) {
+  const isCustomerPortal = portalHref === "/account";
+
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <header className="border-b border-border bg-surface">
@@ -26,16 +35,16 @@ export function MarketingShell({ children, isSignedIn = false }: MarketingShellP
             {isSignedIn ? (
               <>
                 <Link
-                  href="/account"
+                  href={portalHref}
                   className="text-sm font-medium text-muted-foreground hover:text-foreground"
                 >
-                  My Account
+                  {portalLabel}
                 </Link>
                 <Link
-                  href="/apply"
+                  href={isCustomerPortal ? "/apply" : portalHref}
                   className="inline-flex min-h-10 items-center rounded-md bg-brand px-4 text-sm font-medium text-brand-foreground hover:bg-brand-hover"
                 >
-                  Continue your application
+                  {isCustomerPortal ? "Continue your application" : `Open ${portalLabel}`}
                 </Link>
               </>
             ) : (
