@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatKenyanDateTime, formatKes } from "@/lib/format";
@@ -41,7 +42,16 @@ export default async function ApplicationTrackerPage({
     notFound();
   }
 
-  const { application, vehicle, booking, history, documents, latestFeePayment } = data;
+  const {
+    application,
+    vehicle,
+    booking,
+    history,
+    documents,
+    latestFeePayment,
+    fundsAcknowledged,
+    fundsAcknowledgedAt,
+  } = data;
   const [scopeData, docsChecklist, offerData, repairData] = await Promise.all([
     getCustomerScopeForApproval(application.id),
     getCustomerDocumentsChecklist(application.id),
@@ -58,16 +68,22 @@ export default async function ApplicationTrackerPage({
     "REPAYING",
     "SETTLED",
   ].includes(application.status);
-  const currentStep = STATUS_TO_STEP[application.status];
-  const statusLabel = CUSTOMER_STATUS_LABELS[application.status];
-  const nextText = getWhatHappensNext(application.status, application.productCode);
-  const canCancel = ![
-    "REPAIR_IN_PROGRESS",
-    "REPAYING",
-    "SETTLED",
-    "CANCELLED",
-    "EXPIRED",
-  ].includes(application.status);
+  const currentStep = fundsAcknowledged ? 14 : STATUS_TO_STEP[application.status];
+  const statusLabel = fundsAcknowledged
+    ? "Application complete"
+    : CUSTOMER_STATUS_LABELS[application.status];
+  const nextText = fundsAcknowledged
+    ? "Ask AutoParts has acknowledged receipt of funds from our financing partner. Your financing application is complete."
+    : getWhatHappensNext(application.status, application.productCode);
+  const canCancel =
+    !fundsAcknowledged &&
+    ![
+      "REPAIR_IN_PROGRESS",
+      "REPAYING",
+      "SETTLED",
+      "CANCELLED",
+      "EXPIRED",
+    ].includes(application.status);
 
   return (
     <div className="space-y-6">
@@ -79,12 +95,21 @@ export default async function ApplicationTrackerPage({
             {vehicle ? ` | ${vehicle.regNo} (${vehicle.makeModel})` : ""}
           </p>
         </div>
-        <Badge variant="brand">{statusLabel}</Badge>
+        <Badge variant={fundsAcknowledged ? "success" : "brand"}>{statusLabel}</Badge>
       </div>
+
+      {fundsAcknowledged ? (
+        <Alert variant="success">
+          Application complete. Ask AutoParts acknowledged receipt of funds
+          {fundsAcknowledgedAt ? ` on ${formatKenyanDateTime(fundsAcknowledgedAt)}` : ""}.
+        </Alert>
+      ) : null}
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Progress (Step {currentStep} of 14)</CardTitle>
+          <CardTitle className="text-base">
+            {fundsAcknowledged ? "Application complete" : `Progress (Step ${currentStep} of 14)`}
+          </CardTitle>
           <CardDescription>{nextText}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -92,8 +117,8 @@ export default async function ApplicationTrackerPage({
             {JOURNEY_STAGES.map((stage) => {
               const minStep = stage.steps[0];
               const maxStep = stage.steps[stage.steps.length - 1];
-              const completed = currentStep > maxStep;
-              const active = currentStep >= minStep && currentStep <= maxStep;
+              const completed = fundsAcknowledged || currentStep > maxStep;
+              const active = !fundsAcknowledged && currentStep >= minStep && currentStep <= maxStep;
               return (
                 <div
                   key={stage.id}

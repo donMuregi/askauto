@@ -1,23 +1,40 @@
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray } from "drizzle-orm";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatKenyanDate } from "@/lib/format";
 import { requireCustomer } from "@/server/auth/guards";
 import { getDb } from "@/server/db/client";
-import { applications } from "@/server/db/schema";
+import { applications, paymentAttestations } from "@/server/db/schema";
+import { CUSTOMER_STATUS_LABELS } from "@/server/domain/applications/transition";
 
 export const dynamic = "force-dynamic";
 
 export default async function AccountApplicationsPage() {
   const ctx = await requireCustomer({ verified: true, nextPath: "/account/applications" });
+  const db = getDb();
   const rows = ctx.actor.customerId
-    ? await getDb()
+    ? await db
         .select()
         .from(applications)
         .where(eq(applications.customerId, ctx.actor.customerId))
         .orderBy(desc(applications.createdAt))
     : [];
+
+  const appIds = rows.map((r) => r.id);
+  const fundsRows =
+    appIds.length > 0
+      ? await db
+          .select({ applicationId: paymentAttestations.applicationId })
+          .from(paymentAttestations)
+          .where(
+            and(
+              inArray(paymentAttestations.applicationId, appIds),
+              eq(paymentAttestations.kind, "funds_received"),
+            ),
+          )
+      : [];
+  const fundsAcknowledgedSet = new Set(fundsRows.map((r) => r.applicationId));
 
   return (
     <div className="space-y-6">
@@ -39,33 +56,39 @@ export default async function AccountApplicationsPage() {
         </Card>
       ) : (
         <div className="space-y-3">
-          {rows.map((app) => (
-            <Card key={app.id}>
-              <CardHeader className="pb-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <CardTitle className="text-base">
-                    {app.reference ?? "Draft (reference assigned after details)"}
-                  </CardTitle>
-                  <Badge variant="brand">{app.status}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
-                <span>
-                  {app.productCode} | {formatKenyanDate(app.createdAt)}
-                </span>
-                <Link
-                  href={
-                    app.reference
-                      ? `/account/applications/${encodeURIComponent(app.reference)}`
-                      : `/apply/${app.id}/details`
-                  }
-                  className="font-medium text-accent hover:underline"
-                >
-                  Open
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
+          {rows.map((app) => {
+            const complete = fundsAcknowledgedSet.has(app.id);
+            return (
+              <Card key={app.id}>
+                <CardHeader className="pb-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <CardTitle className="text-base">
+                      {app.reference ?? "Draft (reference assigned after details)"}
+                    </CardTitle>
+                    <Badge variant={complete ? "success" : "brand"}>
+                      {complete ? "Application complete" : CUSTOMER_STATUS_LABELS[app.status]}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
+                  <span>
+                    {app.productCode === "RIDE_HAILING" ? "Ride-hailing" : "Salaried scheme"} |{" "}
+                    {formatKenyanDate(app.createdAt)}
+                  </span>
+                  <Link
+                    href={
+                      app.reference
+                        ? `/account/applications/${encodeURIComponent(app.reference)}`
+                        : `/apply/${app.id}/details`
+                    }
+                    className="font-medium text-accent hover:underline"
+                  >
+                    Open
+                  </Link>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       )}
     </div>

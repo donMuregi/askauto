@@ -20,6 +20,7 @@ import {
   feePayments,
   garages,
   lenders,
+  paymentAttestations,
   products,
   settings,
   statusHistory,
@@ -651,42 +652,55 @@ export async function getApplicationTrackerData(actor: Actor, reference: string)
     lenderId: app.lenderId,
   });
 
-  const [vehicleRows, bookingRows, historyRows, docRows, feeRows, lenderRows] = await Promise.all([
-    app.vehicleId
-      ? db.select().from(vehicles).where(eq(vehicles.id, app.vehicleId)).limit(1)
-      : Promise.resolve([]),
-    db
-      .select({
-        booking: bookings,
-        garageName: garages.name,
-        garageBranch: garages.branchName,
-        garageAddress: garages.address,
-      })
-      .from(bookings)
-      .innerJoin(garages, eq(bookings.garageId, garages.id))
-      .where(eq(bookings.applicationId, app.id))
-      .orderBy(desc(bookings.createdAt))
-      .limit(1),
-    db
-      .select()
-      .from(statusHistory)
-      .where(eq(statusHistory.applicationId, app.id))
-      .orderBy(desc(statusHistory.createdAt)),
-    db
-      .select()
-      .from(documents)
-      .where(eq(documents.applicationId, app.id))
-      .orderBy(desc(documents.createdAt)),
-    db
-      .select()
-      .from(feePayments)
-      .where(eq(feePayments.applicationId, app.id))
-      .orderBy(desc(feePayments.createdAt))
-      .limit(1),
-    app.lenderId
-      ? db.select({ name: lenders.name }).from(lenders).where(eq(lenders.id, app.lenderId)).limit(1)
-      : Promise.resolve([]),
-  ]);
+  const [vehicleRows, bookingRows, historyRows, docRows, feeRows, lenderRows, fundsRows] =
+    await Promise.all([
+      app.vehicleId
+        ? db.select().from(vehicles).where(eq(vehicles.id, app.vehicleId)).limit(1)
+        : Promise.resolve([]),
+      db
+        .select({
+          booking: bookings,
+          garageName: garages.name,
+          garageBranch: garages.branchName,
+          garageAddress: garages.address,
+        })
+        .from(bookings)
+        .innerJoin(garages, eq(bookings.garageId, garages.id))
+        .where(eq(bookings.applicationId, app.id))
+        .orderBy(desc(bookings.createdAt))
+        .limit(1),
+      db
+        .select()
+        .from(statusHistory)
+        .where(eq(statusHistory.applicationId, app.id))
+        .orderBy(desc(statusHistory.createdAt)),
+      db
+        .select()
+        .from(documents)
+        .where(eq(documents.applicationId, app.id))
+        .orderBy(desc(documents.createdAt)),
+      db
+        .select()
+        .from(feePayments)
+        .where(eq(feePayments.applicationId, app.id))
+        .orderBy(desc(feePayments.createdAt))
+        .limit(1),
+      app.lenderId
+        ? db.select({ name: lenders.name }).from(lenders).where(eq(lenders.id, app.lenderId)).limit(1)
+        : Promise.resolve([]),
+      db
+        .select({ recordedAt: paymentAttestations.recordedAt })
+        .from(paymentAttestations)
+        .where(
+          and(
+            eq(paymentAttestations.applicationId, app.id),
+            eq(paymentAttestations.kind, "funds_received"),
+          ),
+        )
+        .limit(1),
+    ]);
+
+  const fundsRow = fundsRows[0] ?? null;
 
   return {
     application: app,
@@ -696,6 +710,8 @@ export async function getApplicationTrackerData(actor: Actor, reference: string)
     documents: docRows,
     latestFeePayment: feeRows[0] ?? null,
     lenderName: lenderRows[0]?.name ?? null,
+    fundsAcknowledged: Boolean(fundsRow),
+    fundsAcknowledgedAt: fundsRow?.recordedAt ?? null,
   };
 }
 
