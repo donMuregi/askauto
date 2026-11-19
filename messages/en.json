@@ -1,0 +1,71 @@
+{
+  "brand": {
+    "name": "Ask AutoParts",
+    "platform": "Fix Now, Pay Later",
+    "partner": "MICROMID",
+    "feeStatement": "KES 1,500 is the only fee, and it is never financed.",
+    "financingNote": "Your financing partner pays Ask AutoParts directly."
+  },
+  "nav": {
+    "howItWorks": "How it works",
+    "forEmployers": "For employers",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "createAccountToApply": "Create account to apply",
+    "continueApplication": "Continue your application",
+    "dashboard": "Dashboard",
+    "applications": "Applications",
+    "documents": "Documents",
+    "profile": "Profile",
+    "security": "Security",
+    "notifications": "Notifications",
+    "privacy": "Privacy"
+  },
+  "auth": {
+    "signUpHeading": "Create your Ask AutoParts account",
+    "signUpSubtext": "You need an account to apply. It takes about 2 minutes.",
+    "signInHeading": "Sign in to Ask AutoParts",
+    "forgotHeading": "Reset your password",
+    "resetHeading": "Choose a new password",
+    "verifyHeading": "Verify your account",
+    "mfaHeading": "Two-factor verification",
+    "mfaSetupHeading": "Set up two-factor authentication",
+    "acceptInviteHeading": "Accept your invitation",
+    "invalidCredentials": "Email, phone or password is incorrect.",
+    "resetRequested": "If an account exists for that email or phone, we have sent instructions.",
+    "duplicatePhone": "We could not use this phone number. Try a different one or sign in.",
+    "checkEmailContinue": "Check your email to continue.",
+    "accountLocked": "Too many failed attempts. Wait 15 minutes and try again.",
+    "passwordChanged": "Your password has been updated. Sign in with your new password.",
+    "keepSignedIn": "Keep me signed in",
+    "termsLabel": "I accept the Terms of Use and Privacy Notice"
+  },
+  "statuses": {
+    "DRAFT": "Application started",
+    "BOOKED": "Booked",
+    "REPORT_SUBMITTED": "Booked (inspection done, report being checked)",
+    "REPORT_READY": "Report ready",
+    "SCOPE_SENT": "Report ready (scope waiting for your approval)",
+    "REPAIR_APPROVED": "Repair approved (upload your documents)",
+    "UNDER_REVIEW": "Under review",
+    "WITH_LENDER": "With financing partner",
+    "OFFER_MADE": "With financing partner (offer ready for you)",
+    "APPROVED": "Approved",
+    "REPAIR_IN_PROGRESS": "Repair in progress",
+    "REPAYING": "Repaying",
+    "SETTLED": "Settled",
+    "DECLINED": "Not approved (options available)",
+    "CASH_ROUTE": "Cash or deposit route",
+    "CANCELLED": "Cancelled",
+    "EXPIRED": "Expired"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "submit": "Submit",
+    "back": "Back",
+    "loading": "Loading",
+    "indicativeOnly": "Indicative only. Final terms come from the lender."
+  }
+}

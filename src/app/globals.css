@@ -1,26 +1,64 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Prototype design tokens: amber brand, MICROMID blue accent, neutral greys */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --surface: #ffffff;
+  --surface-muted: #f1f5f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --muted-foreground: #475569;
+
+  --brand-amber: #d97706;
+  --brand-amber-hover: #b45309;
+  --brand-amber-soft: #fef3c7;
+  --brand-amber-foreground: #ffffff;
+
+  --accent-micromid: #1d4ed8;
+  --accent-micromid-hover: #1e40af;
+  --accent-micromid-soft: #dbeafe;
+  --accent-micromid-foreground: #ffffff;
+
+  --success: #15803d;
+  --success-soft: #dcfce7;
+  --warning: #b45309;
+  --warning-soft: #fef3c7;
+  --destructive: #b91c1c;
+  --destructive-soft: #fee2e2;
+
+  --radius: 0.5rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-brand: var(--brand-amber);
+  --color-brand-hover: var(--brand-amber-hover);
+  --color-brand-soft: var(--brand-amber-soft);
+  --color-brand-foreground: var(--brand-amber-foreground);
+  --color-accent: var(--accent-micromid);
+  --color-accent-hover: var(--accent-micromid-hover);
+  --color-accent-soft: var(--accent-micromid-soft);
+  --color-accent-foreground: var(--accent-micromid-foreground);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-destructive: var(--destructive);
+  --color-destructive-soft: var(--destructive-soft);
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
