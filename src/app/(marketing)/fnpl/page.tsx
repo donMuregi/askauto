@@ -3,7 +3,7 @@ import { MarketingShell } from "@/components/layouts/marketing-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const stages = [
-  { stage: "A. Find and book", detail: "Create and verify your account, confirm eligibility, pick a slot, and pay KES 1,500 by M-Pesa." },
+  { stage: "A. Find and book", detail: "Create and verify your account, confirm eligibility, and book your diagnostic inspection slot." },
   { stage: "B. Inspect and approve", detail: "Certified assessor completes a diagnostic report. You review the priced scope and e-sign only the work you choose." },
   { stage: "C. Apply", detail: "Upload required documents. Ask AutoParts reviews and forwards your package to the financing partner." },
   { stage: "D. Decide and pay out", detail: "Accept your financing partner's offer. Your financing partner pays Ask AutoParts directly." },
@@ -17,8 +17,8 @@ export default function FnplHowItWorksPage() {
         <div className="space-y-3">
           <h1 className="text-3xl font-bold tracking-tight">How Fix Now, Pay Later works</h1>
           <p className="text-base text-muted-foreground">
-            KES 1,500 is the only fee, and it is never financed. No logbook surrender. No vehicle
-            tracker. Your financing partner pays Ask AutoParts directly.
+            No logbook surrender. No vehicle tracker. Your financing partner pays Ask AutoParts
+            directly.
           </p>
         </div>
 

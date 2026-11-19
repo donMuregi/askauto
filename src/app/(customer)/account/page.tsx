@@ -57,8 +57,8 @@ export default async function AccountDashboardPage() {
           <CardHeader>
             <CardTitle>Start your application</CardTitle>
             <CardDescription>
-              KES 1,500 is the only fee, and it is never financed. Your financing partner pays Ask
-              AutoParts directly.
+              Your financing partner pays Ask AutoParts directly. No logbook surrender. No vehicle
+              tracker.
             </CardDescription>
           </CardHeader>
           <CardContent>

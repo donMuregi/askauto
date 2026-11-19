@@ -13,8 +13,8 @@ export default function HomePage() {
             Get your vehicle repaired now and pay through a financing partner.
           </h1>
           <p className="text-base text-muted-foreground">
-            Your financing partner pays Ask AutoParts directly. KES 1,500 is the only fee, and it
-            is never financed. No logbook surrender. No vehicle tracker.
+            Your financing partner pays Ask AutoParts directly. No logbook surrender. No vehicle
+            tracker.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
@@ -38,8 +38,8 @@ export default function HomePage() {
               <CardTitle>Ride-hailing drivers</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 text-sm text-muted-foreground">
-              <p>For Uber, Bolt, and other app drivers.</p>
-              <p>Uber and Bolt drivers qualify for daily repayment financing through Fund Flow Capital.</p>
+              <p>For drivers on any ride-hailing app.</p>
+              <p>Daily repayment through our financing partner.</p>
             </CardContent>
           </Card>
 

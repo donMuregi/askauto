@@ -13,7 +13,20 @@ const verifiedCustomer: Actor = {
 
 const unverifiedCustomer: Actor = {
   ...verifiedCustomer,
+  emailVerified: false,
   phoneNumberVerified: false,
+};
+
+const emailOnlyCustomer: Actor = {
+  ...verifiedCustomer,
+  emailVerified: true,
+  phoneNumberVerified: false,
+};
+
+const phoneOnlyCustomer: Actor = {
+  ...verifiedCustomer,
+  emailVerified: false,
+  phoneNumberVerified: true,
 };
 
 const assessor: Actor = {
@@ -41,8 +54,10 @@ const garageUser: Actor = {
 };
 
 describe("centralised policies can()", () => {
-  it("blocks unverified customers from creating applications", () => {
+  it("blocks unverified customers and allows email-only, phone-only, or fully verified customers", () => {
     expect(can(unverifiedCustomer, "application:create")).toBe(false);
+    expect(can(emailOnlyCustomer, "application:create")).toBe(true);
+    expect(can(phoneOnlyCustomer, "application:create")).toBe(true);
     expect(can(verifiedCustomer, "application:create")).toBe(true);
   });
 

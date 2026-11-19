@@ -17,6 +17,10 @@ function createAuth() {
     appName: BRAND_NAME,
     baseURL: env.BETTER_AUTH_URL,
     secret: env.BETTER_AUTH_SECRET,
+    trustedOrigins:
+      env.NODE_ENV === "development"
+        ? [env.APP_URL, "http://localhost:3000", "http://192.168.100.9:3000"]
+        : [env.APP_URL],
     database: drizzleAdapter(getDb(), {
       provider: "pg",
       schema: {

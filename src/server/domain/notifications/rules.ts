@@ -35,7 +35,7 @@ export const EVENT_RULES: Record<string, EventRule> = {
     critical: false,
     bypassQuietHours: true,
     inAppTitle: "Account verified",
-    inAppBody: () => "Your email and phone are verified. Start your application.",
+    inAppBody: () => "Your account is verified. Start your application.",
     inAppLink: () => "/apply",
   },
   "auth.password_reset": {

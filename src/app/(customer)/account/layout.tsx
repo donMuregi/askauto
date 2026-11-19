@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function AccountLayout({ children }: { children: ReactNode }) {
   const ctx = await requireCustomer({ verified: false, nextPath: "/account" });
   const unreadCount = await getUnreadNotificationCount(ctx.user.id);
-  const unverified = !ctx.user.emailVerified || !ctx.user.phoneNumberVerified;
+  const unverified = !ctx.user.emailVerified && !ctx.user.phoneNumberVerified;
 
   return (
     <CustomerShell

@@ -35,12 +35,10 @@ export function WelcomeEmailTemplate({ applyUrl }: { applyUrl: string }) {
       ctaUrl={applyUrl}
     >
       <Text style={pStyle}>
-        Your email and phone number are verified. You can now start your vehicle repair financing
-        application.
+        Your account is verified. You can now start your vehicle repair financing application.
       </Text>
       <Text style={pStyle}>
-        KES 1,500 is the only fee, and it is never financed. Your financing partner pays Ask
-        AutoParts directly.
+        Your financing partner pays Ask AutoParts directly.
       </Text>
     </EmailLayout>
   );

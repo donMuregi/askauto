@@ -81,8 +81,7 @@ export function can(actor: Actor, action: PolicyAction, resource: PolicyResource
     case "handover:confirm":
       return (
         actor.kind === "customer" &&
-        Boolean(actor.emailVerified) &&
-        Boolean(actor.phoneNumberVerified) &&
+        Boolean(actor.emailVerified || actor.phoneNumberVerified) &&
         (!resource.customerId || resource.customerId === actor.customerId)
       );
 
@@ -159,8 +158,7 @@ export function can(actor: Actor, action: PolicyAction, resource: PolicyResource
     case "upload:create":
       if (actor.kind === "customer") {
         return Boolean(
-          actor.emailVerified &&
-            actor.phoneNumberVerified &&
+          (actor.emailVerified || actor.phoneNumberVerified) &&
             resource.customerId === actor.customerId,
         );
       }

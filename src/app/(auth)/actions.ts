@@ -3,6 +3,7 @@
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { isDomainError } from "@/lib/errors";
+import { logger } from "@/lib/logger";
 import { getAuth } from "@/server/auth/auth";
 import { requireUser } from "@/server/auth/guards";
 import { getRequestMeta } from "@/server/auth/request-meta";
@@ -50,6 +51,7 @@ function mapError(err: unknown): AuthActionResult {
       requiresCaptcha: Boolean(err.details?.requiresCaptcha),
     };
   }
+  logger.error({ err }, "unexpected auth action error");
   return {
     ok: false,
     error: "Something went wrong. Try again.",
@@ -175,16 +177,16 @@ export async function verifyPhoneOtpAction(formData: FormData): Promise<AuthActi
     if (!ctx.user.phoneNumber) {
       return { ok: false, error: "No phone number is registered on this account." };
     }
-    const { bothVerified } = await verifyPhoneOtpService({
+    const { accountVerified } = await verifyPhoneOtpService({
       userId: ctx.user.id,
       phoneNumber: ctx.user.phoneNumber,
       code: parsed.data.code,
     });
 
-    if (bothVerified) {
+    if (accountVerified) {
       return { ok: true, redirectTo: safeNext(parsed.data.next, "/apply") };
     }
-    return { ok: true, message: "Phone number verified. Verify your email to continue." };
+    return { ok: true, message: "Phone number verified." };
   } catch (err) {
     return mapError(err);
   }

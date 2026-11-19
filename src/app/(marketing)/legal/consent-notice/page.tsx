@@ -12,9 +12,7 @@ export default function ConsentNoticePage() {
         <p>
           By accepting this notice during your application, you consent to Ask AutoParts collecting
           your identity, vehicle, diagnostic inspection, and supporting financial records and
-          sharing the completed application package with the assigned financing partner (Fund Flow
-          Capital for eligible ride-hailing drivers, or your employer scheme&apos;s partner bank for
-          salaried employees).
+          sharing the completed application package with the assigned financing partner.
         </p>
         <p>
           No logbook surrender and no vehicle tracker are required. Your financing partner pays Ask

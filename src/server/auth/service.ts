@@ -294,15 +294,15 @@ export async function resendEmailVerificationService(params: {
 
 export async function verifyEmailTokenService(compositeToken: string): Promise<{
   verified: boolean;
-  bothVerified: boolean;
+  accountVerified: boolean;
 }> {
   const parts = compositeToken.split(".");
   if (parts.length !== 2) {
-    return { verified: false, bothVerified: false };
+    return { verified: false, accountVerified: false };
   }
   const [userId, rawToken] = parts;
   if (!userId || !rawToken) {
-    return { verified: false, bothVerified: false };
+    return { verified: false, accountVerified: false };
   }
 
   const result = await verifyAndConsumeToken({
@@ -311,7 +311,7 @@ export async function verifyEmailTokenService(compositeToken: string): Promise<{
   });
 
   if (!result.ok) {
-    return { verified: false, bothVerified: false };
+    return { verified: false, accountVerified: false };
   }
 
   const db = getDb();
@@ -334,7 +334,7 @@ export async function verifyEmailTokenService(compositeToken: string): Promise<{
     .returning();
 
   if (!updated) {
-    return { verified: false, bothVerified: false };
+    return { verified: false, accountVerified: false };
   }
 
   if (newEmail && oldEmail) {
@@ -356,8 +356,8 @@ export async function verifyEmailTokenService(compositeToken: string): Promise<{
     });
   }
 
-  const bothVerified = Boolean(updated.emailVerified && updated.phoneNumberVerified);
-  if (bothVerified && !newEmail) {
+  const accountVerified = Boolean(updated.emailVerified || updated.phoneNumberVerified);
+  if (accountVerified && !newEmail) {
     const env = getEnv();
     await dispatchImmediateAuthNotification({
       type: "auth.welcome",
@@ -370,7 +370,7 @@ export async function verifyEmailTokenService(compositeToken: string): Promise<{
     });
   }
 
-  return { verified: true, bothVerified };
+  return { verified: true, accountVerified };
 }
 
 export async function sendPhoneOtpService(params: {
@@ -467,7 +467,7 @@ export async function verifyPhoneOtpService(params: {
   userId: string;
   phoneNumber: string;
   code: string;
-}): Promise<{ bothVerified: boolean }> {
+}): Promise<{ accountVerified: boolean }> {
   const normalizedPhone = normalizeKenyanPhone(params.phoneNumber);
   if (!normalizedPhone) {
     throw new DomainError("VALIDATION_ERROR", "Phone number on account is invalid.", 400);
@@ -518,8 +518,8 @@ export async function verifyPhoneOtpService(params: {
     .where(eq(userTable.id, params.userId))
     .returning();
 
-  const bothVerified = Boolean(updated?.emailVerified && updated?.phoneNumberVerified);
-  if (bothVerified && updated) {
+  const accountVerified = Boolean(updated?.emailVerified || updated?.phoneNumberVerified);
+  if (accountVerified && updated) {
     const env = getEnv();
     await dispatchImmediateAuthNotification({
       type: "auth.welcome",
@@ -532,7 +532,7 @@ export async function verifyPhoneOtpService(params: {
     });
   }
 
-  return { bothVerified };
+  return { accountVerified };
 }
 
 export async function signInWithIdentifierService(params: {
@@ -737,7 +737,7 @@ export async function signInWithIdentifierService(params: {
   }
 
   const customerTarget = safeNext(params.next, "/account");
-  if (!foundUser.emailVerified || !foundUser.phoneNumberVerified) {
+  if (!foundUser.emailVerified && !foundUser.phoneNumberVerified) {
     return { redirectTo: `/verify?next=${encodeURIComponent(customerTarget)}` };
   }
 

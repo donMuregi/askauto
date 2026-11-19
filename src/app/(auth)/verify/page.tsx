@@ -29,14 +29,14 @@ export default async function VerifyPage({
     );
   }
 
-  if (ctx.user.emailVerified && ctx.user.phoneNumberVerified) {
+  if (ctx.user.emailVerified || ctx.user.phoneNumberVerified) {
     redirect(nextPath);
   }
 
   return (
     <AuthShell
       title="Verify your account"
-      subtitle="Verify both your email address and phone number to start your application."
+      subtitle="Verify either your phone number or your email address to continue."
     >
       <VerifyChecklist
         email={ctx.user.email}

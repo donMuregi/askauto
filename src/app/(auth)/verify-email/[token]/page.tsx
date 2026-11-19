@@ -22,7 +22,7 @@ export default async function VerifyEmailTokenPage({
   const result = await verifyEmailTokenService(decoded);
 
   if (result.verified) {
-    if (result.bothVerified) {
+    if (result.accountVerified) {
       redirect(nextPath);
     }
     redirect(`/verify?next=${encodeURIComponent(nextPath)}`);

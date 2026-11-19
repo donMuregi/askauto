@@ -238,12 +238,11 @@ export async function requireCustomer(
     redirect("/");
   }
 
-  if (options.verified && (!ctx.user.emailVerified || !ctx.user.phoneNumberVerified)) {
+  if (options.verified && !ctx.user.emailVerified && !ctx.user.phoneNumberVerified) {
     if (options.mode === "throw") {
-      const code = !ctx.user.emailVerified ? "EMAIL_UNVERIFIED" : "PHONE_UNVERIFIED";
       throw new DomainError(
-        code,
-        "Verify both your email and phone number before continuing.",
+        "EMAIL_UNVERIFIED",
+        "Verify your email or phone number before continuing.",
         403,
       );
     }

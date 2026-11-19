@@ -93,29 +93,7 @@ export function VerifyChecklist({
       <div className="rounded-md border border-border p-4 space-y-3">
         <div className="flex items-center justify-between gap-2">
           <div>
-            <p className="text-sm font-semibold">1. Email address</p>
-            <p className="text-xs text-muted-foreground">{email}</p>
-          </div>
-          <Badge variant={emailVerified ? "success" : "brand"}>
-            {emailVerified ? "Verified" : "Pending"}
-          </Badge>
-        </div>
-        {!emailVerified ? (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleResendEmail}
-            disabled={isPending}
-          >
-            Resend verification email
-          </Button>
-        ) : null}
-      </div>
-
-      <div className="rounded-md border border-border p-4 space-y-3">
-        <div className="flex items-center justify-between gap-2">
-          <div>
-            <p className="text-sm font-semibold">2. Phone number</p>
+            <p className="text-sm font-semibold">Verify by phone (SMS code)</p>
             <p className="text-xs text-muted-foreground">{phoneNumber ?? "Not set"}</p>
           </div>
           <Badge variant={phoneNumberVerified ? "success" : "brand"}>
@@ -153,6 +131,32 @@ export function VerifyChecklist({
               </Button>
             </div>
           </form>
+        ) : null}
+      </div>
+
+      <p className="text-center text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        Or
+      </p>
+
+      <div className="rounded-md border border-border p-4 space-y-3">
+        <div className="flex items-center justify-between gap-2">
+          <div>
+            <p className="text-sm font-semibold">Verify by email link</p>
+            <p className="text-xs text-muted-foreground">{email}</p>
+          </div>
+          <Badge variant={emailVerified ? "success" : "brand"}>
+            {emailVerified ? "Verified" : "Pending"}
+          </Badge>
+        </div>
+        {!emailVerified ? (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleResendEmail}
+            disabled={isPending}
+          >
+            Resend verification email
+          </Button>
         ) : null}
       </div>
     </div>

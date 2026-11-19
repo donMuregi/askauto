@@ -65,7 +65,7 @@ export function CustomerShell({
       {unverified ? (
         <div className="mx-auto w-full max-w-6xl px-4 pt-4 sm:px-6">
           <Alert variant="warning" className="flex flex-wrap items-center justify-between gap-2">
-            <span>Verify both your email and phone number before starting an application.</span>
+            <span>Verify your email or phone number before starting an application.</span>
             <Link href="/verify" className="font-semibold underline">
               Complete verification
             </Link>
