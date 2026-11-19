@@ -4,7 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { formatKenyanDateTime, formatKes } from "@/lib/format";
 import { requireCustomer } from "@/server/auth/guards";
 import { getApplicationTrackerData } from "@/server/domain/applications/service";
+import { getCustomerRepairAndHandoverData } from "@/server/domain/garage/service";
 import { getCustomerScopeForApproval } from "@/server/domain/inspections/service";
+import { getCustomerOfferData } from "@/server/domain/lenders/service";
 import { getCustomerDocumentsChecklist } from "@/server/domain/review/service";
 import {
   CUSTOMER_STATUS_LABELS,
@@ -14,6 +16,8 @@ import {
 } from "@/server/domain/applications/transition";
 import { CancelApplicationForm } from "./cancel-application-form";
 import { DocumentsUploadPanel } from "./documents-upload-panel";
+import { HandoverPanel } from "./handover-panel";
+import { OfferPanel } from "./offer-panel";
 import { ScopeApprovalPanel } from "./scope-approval-panel";
 
 export const dynamic = "force-dynamic";
@@ -38,9 +42,11 @@ export default async function ApplicationTrackerPage({
   }
 
   const { application, vehicle, booking, history, documents, latestFeePayment } = data;
-  const [scopeData, docsChecklist] = await Promise.all([
+  const [scopeData, docsChecklist, offerData, repairData] = await Promise.all([
     getCustomerScopeForApproval(application.id),
     getCustomerDocumentsChecklist(application.id),
+    getCustomerOfferData(application.id),
+    getCustomerRepairAndHandoverData(application.id),
   ]);
   const showUploadChecklist = [
     "REPAIR_APPROVED",
@@ -109,6 +115,76 @@ export default async function ApplicationTrackerPage({
           </div>
         </CardContent>
       </Card>
+
+      {repairData ? (
+        <HandoverPanel
+          applicationId={application.id}
+          applicationStatus={application.status}
+          customerName={ctx.user.name}
+          job={{
+            jobNo: repairData.job.jobNo,
+            status: repairData.job.status,
+            mileageIn: repairData.job.mileageIn,
+            mileageOut: repairData.job.mileageOut,
+          }}
+          lines={repairData.lines.map((l) => ({
+            id: l.id,
+            serviceCode: l.serviceCode,
+            description: l.description,
+            partFitted: l.partFitted,
+            grade: l.grade,
+            warrantyToDate: l.warrantyToDate,
+            warrantyToKm: l.warrantyToKm,
+            completedAtFormatted: l.completedAt ? formatKenyanDateTime(l.completedAt) : null,
+          }))}
+          recommendations={repairData.recommendations.map((r) => ({
+            id: r.id,
+            finding: r.finding,
+            urgency: r.urgency,
+            reminderOn: r.reminderOn,
+          }))}
+          photos={repairData.photos.map((p) => ({
+            id: p.id,
+            kind: p.kind,
+          }))}
+          handover={
+            repairData.handover
+              ? {
+                  roadTestKm: repairData.handover.roadTestKm,
+                  roadTestResult: repairData.handover.roadTestResult,
+                  walkthroughDone: repairData.handover.walkthroughDone,
+                  partsReturned: repairData.handover.partsReturned,
+                  nextServiceKm: repairData.handover.nextServiceKm,
+                  nextServiceDate: repairData.handover.nextServiceDate,
+                  handedOverAtFormatted: repairData.handover.handedOverAt
+                    ? formatKenyanDateTime(repairData.handover.handedOverAt)
+                    : null,
+                }
+              : null
+          }
+        />
+      ) : null}
+
+      {offerData ? (
+        <OfferPanel
+          applicationId={application.id}
+          applicationStatus={application.status}
+          customerName={ctx.user.name}
+          offer={{
+            id: offerData.offer.id,
+            customerResponse: offerData.offer.customerResponse,
+            approvedAmountKes: offerData.decision.approvedAmountKes,
+            installmentKes: offerData.decision.installmentKes,
+            frequency: offerData.decision.frequency,
+            tenorCount: offerData.decision.tenorCount,
+            rateText: offerData.decision.rateText,
+            feesText: offerData.decision.feesText,
+            validUntilFormatted: offerData.decision.validUntil
+              ? formatKenyanDateTime(offerData.decision.validUntil)
+              : null,
+          }}
+        />
+      ) : null}
 
       {showUploadChecklist ? (
         <DocumentsUploadPanel

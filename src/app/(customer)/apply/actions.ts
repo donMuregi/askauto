@@ -13,7 +13,9 @@ import {
   startApplicationService,
   submitDetailsService,
 } from "@/server/domain/applications/service";
+import { customerConfirmHandoverService } from "@/server/domain/garage/service";
 import { customerApproveScopeService } from "@/server/domain/inspections/service";
+import { customerRespondToOfferService } from "@/server/domain/lenders/service";
 import { submitCustomerDocumentsService } from "@/server/domain/review/service";
 
 export interface ApplyActionResult {
@@ -268,6 +270,70 @@ export async function submitDocuments(applicationId: string): Promise<ApplyActio
     revalidatePath("/account");
     revalidatePath("/account/applications");
     return { ok: true, message: "Documents submitted for review." };
+  } catch (err) {
+    return handleError(err);
+  }
+}
+
+const respondOfferSchema = z.object({
+  applicationId: z.string().uuid(),
+  offerId: z.string().uuid(),
+  response: z.enum(["accepted", "declined"]),
+  typedName: z.string().trim().max(120).optional(),
+});
+
+export async function respondToOffer(
+  payload: z.input<typeof respondOfferSchema>,
+): Promise<ApplyActionResult> {
+  const parsed = respondOfferSchema.safeParse(payload);
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Check your offer response." };
+  }
+
+  try {
+    const ctx = await requireCustomer({ verified: true, mode: "throw" });
+    const res = await customerRespondToOfferService(ctx.actor, parsed.data);
+    revalidatePath("/account");
+    revalidatePath("/account/applications");
+    revalidatePath("/lender");
+    revalidatePath("/lender/applications");
+    revalidatePath("/admin/accounts/funds");
+    return {
+      ok: true,
+      message:
+        res.status === "APPROVED"
+          ? "Offer accepted and signed. Our financing partner and Ask AutoParts will finalize payment authorization."
+          : "Financing offer declined.",
+    };
+  } catch (err) {
+    return handleError(err);
+  }
+}
+
+const confirmHandoverSchema = z.object({
+  applicationId: z.string().uuid(),
+  typedName: z.string().trim().min(2, "Enter your full name to confirm vehicle collection.").max(120),
+});
+
+export async function confirmHandover(
+  payload: z.input<typeof confirmHandoverSchema>,
+): Promise<ApplyActionResult> {
+  const parsed = confirmHandoverSchema.safeParse(payload);
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Check your confirmation details." };
+  }
+
+  try {
+    const ctx = await requireCustomer({ verified: true, mode: "throw" });
+    const res = await customerConfirmHandoverService(ctx.actor, parsed.data);
+    revalidatePath("/account");
+    revalidatePath("/account/applications");
+    revalidatePath("/garage");
+    revalidatePath("/lender");
+    return {
+      ok: true,
+      message: `Vehicle collection confirmed (${res.certificateDocNumber}). Your repayment schedule is now active.`,
+    };
   } catch (err) {
     return handleError(err);
   }

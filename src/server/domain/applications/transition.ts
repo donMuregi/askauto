@@ -348,6 +348,18 @@ const TRANSITION_RULES: TransitionRule[] = [
   },
   {
     from: "WITH_LENDER",
+    to: "WITH_LENDER",
+    allowedActors: ["lender"],
+    events: ({ application }) => [
+      {
+        type: "lender.info_requested",
+        dedupeKey: `lender.info_requested:${application.id}:${Date.now()}`,
+        payload: { reference: application.reference },
+      },
+    ],
+  },
+  {
+    from: "WITH_LENDER",
     to: "OFFER_MADE",
     allowedActors: ["lender"],
     events: ({ application }) => [
@@ -366,6 +378,18 @@ const TRANSITION_RULES: TransitionRule[] = [
   {
     from: "OFFER_MADE",
     to: "APPROVED",
+    allowedActors: ["customer"],
+    events: ({ application }) => [
+      {
+        type: "offer.accepted",
+        dedupeKey: `offer.accepted:${application.id}`,
+        payload: { reference: application.reference },
+      },
+    ],
+  },
+  {
+    from: "OFFER_MADE",
+    to: "DECLINED",
     allowedActors: ["customer"],
   },
   {

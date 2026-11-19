@@ -5,6 +5,7 @@ import { z } from "zod";
 import { isDomainError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import { requireStaff } from "@/server/auth/guards";
+import { recordFundsReceivedService } from "@/server/domain/lenders/service";
 import {
   approveScopeVarianceService,
   claimTaskService,
@@ -172,6 +173,42 @@ export async function moveToCashRouteAction(
     revalidatePath("/admin");
     revalidatePath("/admin/review");
     return { ok: true, message: "Application moved to cash/deposit route." };
+  } catch (err) {
+    return mapErr(err);
+  }
+}
+
+const recordFundsSchema = z.object({
+  applicationId: z.string().uuid(),
+  amountKes: z.coerce.number().int().positive("Enter a valid amount received in KES."),
+  reference: z.string().trim().min(2, "Enter the bank or payment reference.").max(120),
+  receivedDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Select a valid receipt date (YYYY-MM-DD)."),
+});
+
+export async function recordFundsReceivedAction(
+  payload: z.input<typeof recordFundsSchema>,
+): Promise<OpsActionResult> {
+  const parsed = recordFundsSchema.safeParse(payload);
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Check your funds receipt input." };
+  }
+
+  try {
+    const ctx = await requireStaff(["accounts", "admin"], { mode: "throw" });
+    const res = await recordFundsReceivedService(ctx.actor, parsed.data);
+    revalidatePath("/admin");
+    revalidatePath("/admin/accounts/funds");
+    revalidatePath("/lender");
+    revalidatePath("/lender/applications");
+    revalidatePath("/garage");
+    revalidatePath("/account");
+    const msg = res.gateOpened
+      ? "Funds receipt confirmed and garage repair job card opened."
+      : "Funds receipt confirmed. Job card opens once lender payment approval is recorded.";
+    return {
+      ok: true,
+      message: res.discrepancyFlag ? `${msg} Note: amount differs from lender approval.` : msg,
+    };
   } catch (err) {
     return mapErr(err);
   }
