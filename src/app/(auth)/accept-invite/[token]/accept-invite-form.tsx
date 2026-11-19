@@ -67,7 +67,7 @@ export function AcceptInviteForm({ token }: { token: string }) {
       </div>
 
       <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending ? "Setting up account..." : "Continue to two-factor setup"}
+        {isPending ? "Setting up account..." : "Activate account"}
       </Button>
     </form>
   );

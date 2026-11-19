@@ -292,7 +292,7 @@ export async function acceptInviteAction(formData: FormData): Promise<AuthAction
       userAgent: meta.userAgent,
     });
     const next = res.kind === "lender" ? "/lender" : "/admin";
-    return { ok: true, redirectTo: `/mfa/setup?next=${encodeURIComponent(next)}` };
+    return { ok: true, redirectTo: next };
   } catch (err) {
     return mapError(err);
   }

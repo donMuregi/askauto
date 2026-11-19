@@ -13,6 +13,7 @@ import {
   startApplicationService,
   submitDetailsService,
 } from "@/server/domain/applications/service";
+import { customerApproveScopeService } from "@/server/domain/inspections/service";
 
 export interface ApplyActionResult {
   ok: boolean;
@@ -228,6 +229,32 @@ export async function cancelApplication(formData: FormData): Promise<ApplyAction
     await cancelApplicationService(ctx.actor, applicationId, reason);
     revalidatePath("/account");
     return { ok: true, redirectTo: "/account" };
+  } catch (err) {
+    return handleError(err);
+  }
+}
+
+const signScopeSchema = z.object({
+  applicationId: z.string().uuid(),
+  scopeId: z.string().uuid(),
+  approvedItemIds: z.array(z.string().uuid()).min(1, "Select at least one repair item to approve."),
+  typedName: z.string().trim().min(2, "Enter your full name to sign."),
+});
+
+export async function signScope(
+  payload: z.input<typeof signScopeSchema>,
+): Promise<ApplyActionResult> {
+  const parsed = signScopeSchema.safeParse(payload);
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Check your approval details." };
+  }
+
+  try {
+    const ctx = await requireCustomer({ verified: true, mode: "throw" });
+    await customerApproveScopeService(ctx.actor, parsed.data);
+    revalidatePath("/account");
+    revalidatePath("/account/applications");
+    return { ok: true, message: "Repair scope approved and signed." };
   } catch (err) {
     return handleError(err);
   }

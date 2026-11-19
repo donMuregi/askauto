@@ -11,7 +11,7 @@ export default async function AcceptInvitePage({
   return (
     <AuthShell
       title="Accept your invitation"
-      subtitle="Set your password, then enrol your authenticator app."
+      subtitle="Set your name and password to access your portal."
     >
       <AcceptInviteForm token={decodeURIComponent(token)} />
     </AuthShell>

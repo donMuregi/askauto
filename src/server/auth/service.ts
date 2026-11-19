@@ -727,13 +727,24 @@ export async function signInWithIdentifierService(params: {
     userAgent: params.userAgent ?? null,
   });
 
-  if (foundUser.kind === "staff" || foundUser.kind === "lender") {
-    const defaultPortal = foundUser.kind === "lender" ? "/lender" : "/admin";
-    const target = safeNext(params.next, defaultPortal);
-    if (!foundUser.twoFactorEnabled) {
-      return { redirectTo: `/mfa/setup?next=${encodeURIComponent(target)}` };
-    }
-    return { redirectTo: `/mfa?next=${encodeURIComponent(target)}` };
+  if (foundUser.kind === "staff") {
+    const [profile] = await db
+      .select({ roles: staffProfiles.roles })
+      .from(staffProfiles)
+      .where(eq(staffProfiles.userId, foundUser.id))
+      .limit(1);
+    const roles = profile?.roles ?? [];
+    const defaultPortal =
+      roles.length === 1 && roles[0] === "assessor"
+        ? "/assessor"
+        : roles.length === 1 && roles[0] === "garage"
+          ? "/garage"
+          : "/admin";
+    return { redirectTo: safeNext(params.next, defaultPortal) };
+  }
+
+  if (foundUser.kind === "lender") {
+    return { redirectTo: safeNext(params.next, "/lender") };
   }
 
   const customerTarget = safeNext(params.next, "/account");

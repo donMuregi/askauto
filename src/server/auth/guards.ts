@@ -265,20 +265,6 @@ export async function requireStaff(
     redirect("/sign-in");
   }
 
-  if (!ctx.user.twoFactorEnabled) {
-    if (options.mode === "throw") {
-      throw new DomainError("MFA_REQUIRED", "Enrol two-factor authentication before continuing.", 403);
-    }
-    redirect("/mfa/setup");
-  }
-
-  if (!ctx.actor.mfaVerified) {
-    if (options.mode === "throw") {
-      throw new DomainError("MFA_REQUIRED", "Complete two-factor verification to continue.", 403);
-    }
-    redirect(`/mfa?next=${encodeURIComponent(safeNext(options.nextPath, "/admin"))}`);
-  }
-
   const hasRole = allowedRoles.length === 0 || ctx.staff.roles.some((r) => allowedRoles.includes(r));
   if (!hasRole) {
     if (options.mode === "throw") {
@@ -307,20 +293,6 @@ export async function requireLender(
       throw new DomainError("IP_NOT_ALLOWED", "Access from this IP address is not permitted.", 403);
     }
     redirect("/sign-in?error=ip_not_allowed");
-  }
-
-  if (!ctx.user.twoFactorEnabled) {
-    if (options.mode === "throw") {
-      throw new DomainError("MFA_REQUIRED", "Enrol two-factor authentication before continuing.", 403);
-    }
-    redirect("/mfa/setup");
-  }
-
-  if (!ctx.actor.mfaVerified) {
-    if (options.mode === "throw") {
-      throw new DomainError("MFA_REQUIRED", "Complete two-factor verification to continue.", 403);
-    }
-    redirect(`/mfa?next=${encodeURIComponent(safeNext(options.nextPath, "/lender"))}`);
   }
 
   if (role && ctx.lender.role !== role) {

@@ -152,11 +152,11 @@ export function InviteTemplate({
       heading="Accept your invitation"
       ctaLabel="Set up your account"
       ctaUrl={inviteUrl}
-      footerNote="This invitation expires in 72 hours. Two-factor authentication setup is required."
+      footerNote="This invitation expires in 72 hours."
     >
       <Text style={pStyle}>
-        An administrator invited you to join Ask AutoParts FNPL ({roleLabel}). Set your password
-        and enrol your authenticator app to access your portal.
+        An administrator invited you to join Ask AutoParts FNPL ({roleLabel}). Set your password to
+        access your portal.
       </Text>
     </EmailLayout>
   );

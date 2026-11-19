@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { formatKenyanDateTime, formatKes } from "@/lib/format";
 import { requireCustomer } from "@/server/auth/guards";
 import { getApplicationTrackerData } from "@/server/domain/applications/service";
+import { getCustomerScopeForApproval } from "@/server/domain/inspections/service";
 import {
   CUSTOMER_STATUS_LABELS,
   getWhatHappensNext,
@@ -11,6 +12,7 @@ import {
   STATUS_TO_STEP,
 } from "@/server/domain/applications/transition";
 import { CancelApplicationForm } from "./cancel-application-form";
+import { ScopeApprovalPanel } from "./scope-approval-panel";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +36,7 @@ export default async function ApplicationTrackerPage({
   }
 
   const { application, vehicle, booking, history, documents, latestFeePayment } = data;
+  const scopeData = await getCustomerScopeForApproval(application.id);
   const currentStep = STATUS_TO_STEP[application.status];
   const statusLabel = CUSTOMER_STATUS_LABELS[application.status];
   const nextText = getWhatHappensNext(application.status, application.productCode);
@@ -91,6 +94,44 @@ export default async function ApplicationTrackerPage({
           </div>
         </CardContent>
       </Card>
+
+      {scopeData.releasedInspection || scopeData.scope ? (
+        <ScopeApprovalPanel
+          applicationId={application.id}
+          customerName={ctx.user.name}
+          findings={scopeData.findings.map((f) => ({
+            id: f.id,
+            componentLabel: f.componentLabel,
+            findingText: f.findingText,
+            recommendedAction: f.recommendedAction,
+            urgency: f.urgency,
+          }))}
+          scope={
+            scopeData.scope
+              ? {
+                  id: scopeData.scope.id,
+                  version: scopeData.scope.version,
+                  status: scopeData.scope.status,
+                  vatRatePct: scopeData.scope.vatRatePct,
+                  subtotalKes: scopeData.scope.subtotalKes,
+                  vatKes: scopeData.scope.vatKes,
+                  totalKes: scopeData.scope.totalKes,
+                }
+              : null
+          }
+          items={scopeData.scopeItems.map((i) => ({
+            id: i.id,
+            serviceCode: i.serviceCode,
+            description: i.description,
+            partGrade: i.partGrade,
+            partBrand: i.partBrand,
+            partsKes: i.partsKes,
+            labourKes: i.labourKes,
+            lineTotalKes: i.lineTotalKes,
+            decision: i.decision,
+          }))}
+        />
+      ) : null}
 
       {booking ? (
         <Card>

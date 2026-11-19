@@ -73,8 +73,10 @@ describe("centralised policies can()", () => {
     ).toBe(false);
   });
 
-  it("enforces R8: assessors never read priced scopes", () => {
-    expect(can(assessor, "scope:read")).toBe(false);
+  it("allows assessors to read and build scopes for assigned inspections", () => {
+    expect(can(assessor, "scope:read")).toBe(true);
+    expect(can(assessor, "scope:build")).toBe(true);
+    expect(can(assessor, "scope:send")).toBe(true);
   });
 
   it("enforces R10: garage cannot access job card before both payment attestations", () => {

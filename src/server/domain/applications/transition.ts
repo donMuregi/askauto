@@ -234,7 +234,7 @@ const TRANSITION_RULES: TransitionRule[] = [
   {
     from: "REPORT_SUBMITTED",
     to: "REPORT_READY",
-    allowedActors: ["ops_reviewer", "ops_approver", "admin"],
+    allowedActors: ["ops_reviewer", "ops_approver", "assessor", "admin"],
     events: ({ application }) => [
       {
         type: "report.ready",
@@ -262,11 +262,23 @@ const TRANSITION_RULES: TransitionRule[] = [
   {
     from: "REPORT_READY",
     to: "SCOPE_SENT",
-    allowedActors: ["ops_reviewer", "ops_approver", "admin"],
+    allowedActors: ["ops_reviewer", "ops_approver", "assessor", "admin"],
     events: ({ application }) => [
       {
         type: "scope.sent",
         dedupeKey: `scope.sent:${application.id}:${Date.now()}`,
+        payload: { reference: application.reference },
+      },
+    ],
+  },
+  {
+    from: "SCOPE_SENT",
+    to: "SCOPE_SENT",
+    allowedActors: ["ops_reviewer", "ops_approver", "assessor", "admin"],
+    events: ({ application }) => [
+      {
+        type: "scope.revised",
+        dedupeKey: `scope.revised:${application.id}:${Date.now()}`,
         payload: { reference: application.reference },
       },
     ],

@@ -110,32 +110,28 @@ export function can(actor: Actor, action: PolicyAction, resource: PolicyResource
 
     case "inspection:read":
       if (actor.kind === "customer") {
-        // R11: customer can only see the diagnostic report after ops releases it
+        // R11: customer can only see the diagnostic report after release
         return Boolean(
           resource.customerId === actor.customerId && resource.inspectionStatus === "released",
         );
       }
       if (hasAnyRole(actor, ["assessor"])) {
-        return Boolean(resource.assessorId && resource.assessorId === actor.userId);
+        return !resource.assessorId || resource.assessorId === actor.userId;
       }
       return hasAnyRole(actor, ["admin", "ops_reviewer", "ops_approver"]);
 
     case "inspection:write":
     case "inspection:submit":
       return (
-        hasAnyRole(actor, ["assessor"]) &&
+        hasAnyRole(actor, ["assessor", "admin"]) &&
         (!resource.assessorId || resource.assessorId === actor.userId)
       );
 
     case "inspection:release":
     case "inspection:return":
-      return hasAnyRole(actor, ["ops_reviewer", "ops_approver", "admin"]);
+      return hasAnyRole(actor, ["ops_reviewer", "ops_approver", "assessor", "admin"]);
 
     case "scope:read":
-      // R8: assessors never see prices or scopes
-      if (actor.kind === "staff" && actor.roles.every((r) => r === "assessor")) {
-        return false;
-      }
       if (actor.kind === "customer") {
         return Boolean(resource.customerId === actor.customerId);
       }
@@ -146,11 +142,11 @@ export function can(actor: Actor, action: PolicyAction, resource: PolicyResource
             resource.hasLenderSubmission === true,
         );
       }
-      return hasAnyRole(actor, ["admin", "ops_reviewer", "ops_approver", "accounts"]);
+      return hasAnyRole(actor, ["admin", "ops_reviewer", "ops_approver", "assessor", "accounts"]);
 
     case "scope:build":
     case "scope:send":
-      return hasAnyRole(actor, ["ops_reviewer", "ops_approver", "admin"]);
+      return hasAnyRole(actor, ["ops_reviewer", "ops_approver", "assessor", "admin"]);
 
     case "scope:approve_variance":
       return hasAnyRole(actor, ["ops_approver", "admin"]);
